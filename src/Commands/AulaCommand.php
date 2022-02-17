@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace VendorName\Skeleton\Commands;
+namespace Spiral\Aula\Commands;
 
 use Spiral\Console\Command;
 
-class SkeletonCommand extends Command
+class AulaCommand extends Command
 {
-    protected const NAME = 'skeleton';
+    protected const NAME = 'aula';
     protected const DESCRIPTION = 'My command';
     protected const ARGUMENTS = [];
 

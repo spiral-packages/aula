@@ -1,17 +1,17 @@
 {
-  "name": ":vendor_slug/:package_slug",
-  "description": ":package_description",
+  "name": "spiral-packages/aula",
+  "description": "This is my package aula",
   "keywords": [
-    ":vendor_name",
+    "spiral-packages",
     "spiral",
-    ":package_slug"
+    "aula"
   ],
-  "homepage": "https://github.com/:vendor_slug/:package_slug",
+  "homepage": "https://github.com/spiral/aula",
   "license": "MIT",
   "authors": [
     {
-      "name": ":author_name",
-      "email": "author@domain.com",
+      "name": "Kirill",
+      "email": "kastahov1021@gmail.com",
       "role": "Developer"
     }
   ],
@@ -28,13 +28,13 @@
   },
   "autoload": {
     "psr-4": {
-      "VendorName\\Skeleton\\": "src"
+      "Spiral\\Aula\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "VendorName\\Skeleton\\Tests\\App\\": "tests/app",
-      "VendorName\\Skeleton\\Tests\\": "tests/src"
+      "Spiral\\Aula\\Tests\\App\\": "tests/app",
+      "Spiral\\Aula\\Tests\\": "tests/src"
     }
   },
   "scripts": {
@@ -42,12 +42,15 @@
     "psalm": "vendor/bin/psalm --config=psalm.xml ./src"
   },
   "config": {
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true
+    }
   },
   "extra": {
     "spiral": {
       "bootloaders": [
-        "VendorName\\Skeleton\\Bootloader\\SkeletonBootloader"
+        "Spiral\\Aula\\Bootloader\\AulaBootloader"
       ]
     }
   },
