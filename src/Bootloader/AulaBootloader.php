@@ -27,7 +27,7 @@ class AulaBootloader extends Bootloader
     {
         $this->initConfig();
 
-        $console->addCommand(Commands\AulaCommand::class);
+        $console->addCommand(Commands\InstallCommand::class);
     }
 
     public function start(Container $container): void

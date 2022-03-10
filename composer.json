@@ -17,6 +17,7 @@
   ],
   "require": {
     "php": "^8.0",
+    "nette/php-generator": "^3.6",
     "spiral/boot": "^2.9",
     "spiral/console": "^2.9"
   },
