@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Spiral\Aula\Bootloader;
 
+use Spiral\Aula\Config\AulaConfig;
 use Spiral\Boot\Bootloader\Bootloader;
+use Spiral\Config\Patch\Set;
 use Spiral\Core\Container;
 use Spiral\Config\ConfiguratorInterface;
 use Spiral\Aula\Commands;
-use Spiral\Aula\Config\AulaConfig;
 use Spiral\Console\Bootloader\ConsoleBootloader;
 
 class AulaBootloader extends Bootloader
@@ -16,16 +17,18 @@ class AulaBootloader extends Bootloader
     protected const BINDINGS = [];
     protected const SINGLETONS = [];
     protected const DEPENDENCIES = [
-        ConsoleBootloader::class
+        ConsoleBootloader::class,
     ];
 
     public function __construct(private ConfiguratorInterface $config)
     {
     }
 
-    public function boot(Container $container, ConsoleBootloader $console): void
+    public function boot(ConsoleBootloader $console): void
     {
         $this->initConfig();
+
+        $this->config->modify('tokenizer', new Set('directories', [__DIR__ . '/../../']));
 
         $console->addCommand(Commands\InstallCommand::class);
     }

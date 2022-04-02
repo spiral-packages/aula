@@ -7,7 +7,6 @@ namespace Spiral\Aula\Commands;
 use Spiral\Aula\PresetLocator;
 use Spiral\Boot\DirectoriesInterface;
 use Spiral\Console\Command;
-use Spiral\Files\Files;
 use Symfony\Component\Console\Input\InputArgument;
 
 class InstallCommand extends Command
@@ -17,15 +16,6 @@ class InstallCommand extends Command
     protected const ARGUMENTS = [
         ['name', InputArgument::REQUIRED, 'Preset name'],
     ];
-
-    protected Files $fileManager;
-
-    public function __construct(string $name = null)
-    {
-        parent::__construct($name);
-
-        $this->fileManager = new Files();
-    }
 
     public function perform(PresetLocator $locator, DirectoriesInterface $dirs): int
     {
