@@ -5,12 +5,12 @@ namespace Spiral\Aula;
 use Psr\Container\ContainerInterface;
 use Spiral\Attributes\ReaderInterface;
 use Spiral\Aula\Attribute\Preset;
-use Spiral\Tokenizer\ClassesInterface;
+use Spiral\Tokenizer\ScopedClassesInterface;
 
 class PresetLocator
 {
     public function __construct(
-        private ClassesInterface $classes,
+        private ScopedClassesInterface $locator,
         private ReaderInterface $reader,
         private ContainerInterface $container
     ) {
@@ -23,7 +23,7 @@ class PresetLocator
     {
         $presets = [];
 
-        foreach ($this->classes->getClasses(PresetInterface::class) as $class) {
+        foreach ($this->locator->getScopedClasses('aula', PresetInterface::class) as $class) {
             if ($class->isInterface() || $class->isAbstract()) {
                 continue;
             }

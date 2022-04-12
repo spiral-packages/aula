@@ -6,7 +6,7 @@ namespace Spiral\Aula\Bootloader;
 
 use Spiral\Aula\Config\AulaConfig;
 use Spiral\Boot\Bootloader\Bootloader;
-use Spiral\Config\Patch\Set;
+use Spiral\Config\Patch\Append;
 use Spiral\Core\Container;
 use Spiral\Config\ConfiguratorInterface;
 use Spiral\Aula\Commands;
@@ -28,7 +28,14 @@ class AulaBootloader extends Bootloader
     {
         $this->initConfig();
 
-        $this->config->modify('tokenizer', new Set('directories', [__DIR__ . '/../../']));
+        $this->config->modify(
+            'tokenizer',
+            new Append('', 'scopes', [
+                'aula' => [
+                    'directories' => [__DIR__ . '/../../'],
+                ],
+            ])
+        );
 
         $console->addCommand(Commands\InstallCommand::class);
     }
