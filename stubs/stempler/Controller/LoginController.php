@@ -22,17 +22,19 @@ class LoginController
     }
 
     #[Route(route: '/login', name: 'login', methods: ['POST'])]
-    public function login(LoginRequest $request): array
+    public function login(LoginRequest $request, ViewsInterface $view)
     {
         $user = $this->users->findByEmail($request->email);
-        if ($user === null || !password_verify($request->password, $user->password)) {
-            return [
-                'status' => 400,
-                'error'  => 'No such user',
-            ];
-        }
 
-        die(dump($user));
+        if ($user === null || !password_verify($request->password, $user->password)) {
+            return $view->render('auth/login', [
+                'errors' => [
+                    [
+                        'error'  => 'No such user',
+                    ]
+                ]
+            ]);
+        }
 
         $token = $this->authTokens->create(
             ['userID' => $user->id],
@@ -41,11 +43,7 @@ class LoginController
 
         $this->auth->start($token);
 
-        return [
-            'status'  => 200,
-            'message' => 'Authenticated, redirecting',
-            'action'  => 'reload',
-        ];
+        return $view->render('auth/login');
     }
 
     #[Route(route: '/logout', name: 'logout', methods: ['POST'])]

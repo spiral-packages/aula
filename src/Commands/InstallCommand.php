@@ -18,7 +18,7 @@ class InstallCommand extends Command
         ['name', InputArgument::REQUIRED, 'Preset name'],
     ];
     protected const OPTIONS = [
-        ['dir', 'd', InputOption::VALUE_REQUIRED, 'App directory', '/src'],
+        ['dir', 'd', InputOption::VALUE_REQUIRED, 'App directory', 'src'],
     ];
 
     public function perform(PresetLocator $locator, DirectoriesInterface $dirs): int

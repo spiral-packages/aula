@@ -20,13 +20,12 @@ class RegisterController
     }
 
     #[Route(route: '/register', name: 'register', methods: ['POST'])]
-    public function register(RegisterRequest $request, EntityManagerInterface $entityManager)
+    public function register(RegisterRequest $request, EntityManagerInterface $entityManager, ViewsInterface $view)
     {
         if (!$request->isValid()) {
-            return [
-                'status' => 400,
+            return $view->render('auth/register', [
                 'errors' => $request->getErrors()
-            ];
+            ]);
         }
 
         $user = new User();

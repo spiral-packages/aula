@@ -14,7 +14,7 @@ class StemplerPreset implements PresetInterface
 
     public function publish(string $publishPath): void
     {
-        $ensureDirs = ['Bootloader', 'Bootloader', 'Database', 'Repository', 'Filter/Auth', 'views/auth/layouts'];
+        $ensureDirs = ['Bootloader', 'Controller/Auth', 'Database', 'Repository', 'Filter/Auth', '../views/auth/layouts'];
 
         foreach ($ensureDirs as $dir) {
             $this->fileManager->ensureDirectory($publishPath . $dir);
@@ -27,15 +27,15 @@ class StemplerPreset implements PresetInterface
 
         copy(
             __DIR__ . '/../stubs/stempler/Controller/LoginController.php',
-            $publishPath . '/Controller/Auth/LoginController.php'
+            $publishPath . 'Controller/Auth/LoginController.php'
         );
         copy(
             __DIR__ . '/../stubs/stempler/Controller/RegisterController.php',
-            $publishPath . '/Controller/Auth/RegisterController.php'
+            $publishPath . 'Controller/Auth/RegisterController.php'
         );
         copy(
             __DIR__ . '/../stubs/UserRepository.php',
-            $publishPath . '/Repository/UserRepository.php'
+            $publishPath . 'Repository/UserRepository.php'
         );
         copy(
             __DIR__ . '/../stubs/stempler/Filter/LoginRequest.php',
@@ -53,16 +53,16 @@ class StemplerPreset implements PresetInterface
         copy(__DIR__ . '/../stubs/User.php', $publishPath . 'Database/User.php');
 
         copy(
-            __DIR__ . '/../stubs/stempler/views/layouts/app.dark.php',
+            __DIR__ . '/../stubs/stempler/resources/views/layouts/app.dark.php',
             $publishPath . '../views/auth/layouts/app.dark.php'
         );
 
         copy(
-            __DIR__ . '/../stubs/stempler/views/login.dark.php',
+            __DIR__ . '/../stubs/stempler/resources/views/login.dark.php',
             $publishPath . '../views/auth/login.dark.php'
         );
         copy(
-            __DIR__ . '/../stubs/stempler/views/register.dark.php',
+            __DIR__ . '/../stubs/stempler/resources/views/register.dark.php',
             $publishPath . '../views/auth/register.dark.php'
         );
     }

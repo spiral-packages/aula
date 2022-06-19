@@ -1,0 +1,25 @@
+{
+  "name": "aula",
+  "version": "1.0.0",
+  "description": "[![PHP](https://img.shields.io/packagist/php-v/spiral/aula.svg?style=flat-square)](https://packagist.org/packages/spiral/aula) [![Latest Version on Packagist](https://img.shields.io/packagist/v/spiral/aula.svg?style=flat-square)](https://packagist.org/packages/spiral/aula) [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/spiral/aula/run-tests?label=tests&style=flat-square)](https://github.com/spiral/aula/actions?query=workflow%3Arun-tests+branch%3Amain) [![Total Downloads](https://img.shields.io/packagist/dt/spiral/aula.svg?style=flat-square)](https://packagist.org/packages/spiral/aula)",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spiral-packages/aula.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spiral-packages/aula/issues"
+  },
+  "homepage": "https://github.com/spiral-packages/aula#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.1.3"
+  }
+}
