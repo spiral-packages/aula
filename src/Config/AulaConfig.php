@@ -9,5 +9,5 @@ use Spiral\Core\InjectableConfig;
 final class AulaConfig extends InjectableConfig
 {
     public const CONFIG = 'aula';
-    protected $config = [];
+    protected array $config = [];
 }
