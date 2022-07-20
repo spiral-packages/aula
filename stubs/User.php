@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Database;
 
 use Cycle\Annotated\Annotation as Cycle;
@@ -18,33 +20,21 @@ class User
     #[Cycle\Column(type: 'string', name: 'password')]
     public string $password;
 
-    /**
-     * @return mixed
-     */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    /**
-     * @param mixed $email
-     */
     public function setEmail($email): void
     {
         $this->email = $email;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * @param mixed $password
-     */
     public function setPassword($password): void
     {
         $this->password = $password;

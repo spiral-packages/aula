@@ -4,32 +4,25 @@ declare(strict_types=1);
 
 namespace App\Filter\Auth;
 
+use Spiral\Filters\Attribute\Input\Post;
 use Spiral\Filters\Filter;
+use Spiral\Filters\FilterDefinitionInterface;
+use Spiral\Filters\HasFilterDefinition;
+use Spiral\Validation\Laravel\FilterDefinition;
 
-class LoginRequest extends Filter
+class LoginRequest extends Filter implements HasFilterDefinition
 {
-    protected const SCHEMA = [
-        'email' => 'data:email',
-        'password' => 'data:password',
-    ];
+    #[Post]
+    public string $email;
 
-    protected const VALIDATES = [
-        'email' => ['notEmpty', 'string'],
-        'password' => ['notEmpty', 'string'],
-    ];
+    #[Post]
+    public string $password;
 
-    protected const SETTERS = [
-        'email' => 'strval',
-        'password' => 'strval',
-    ];
-
-    private const DEFAULT_DURATION  = 'P1D';
-    private const REMEMBER_DURATION = 'P1M';
-
-    public function getSessionExpiration(): \DateTimeInterface
+    public function filterDefinition(): FilterDefinitionInterface
     {
-        $now = new \DateTime();
-
-        return $now->add(new \DateInterval(self::DEFAULT_DURATION));
+        return new FilterDefinition([
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string'],
+        ]);
     }
 }

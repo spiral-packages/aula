@@ -6,15 +6,16 @@ namespace App\Controller\Auth;
 
 use App\Filter\Auth\LoginRequest;
 use App\Filter\Auth\LogoutRequest;
+use App\Repository\UserRepository;
+use Spiral\Auth\AuthScope;
+use Spiral\Auth\TokenStorageInterface;
 use Spiral\Http\Exception\ClientException\BadRequestException;
-use Spiral\Prototype\Traits\PrototypeTrait;
+use Spiral\Http\ResponseWrapper;
 use Spiral\Router\Annotation\Route;
 use Spiral\Views\ViewsInterface;
 
 class LoginController
 {
-    use PrototypeTrait;
-
     #[Route(route: '/login', name: 'login:form', methods: ['GET'])]
     public function index(ViewsInterface $view)
     {
@@ -22,32 +23,37 @@ class LoginController
     }
 
     #[Route(route: '/login', name: 'login', methods: ['POST'])]
-    public function login(LoginRequest $request, ViewsInterface $view)
-    {
-        $user = $this->users->findByEmail($request->email);
+    public function login(
+        LoginRequest $request,
+        ViewsInterface $view,
+        UserRepository $repository,
+        ResponseWrapper $response,
+        AuthScope $auth,
+        TokenStorageInterface $tokenStorage
+    ) {
+        $user = $repository->findByEmail($request->email);
 
         if ($user === null || !password_verify($request->password, $user->password)) {
             return $view->render('auth/login', [
                 'errors' => [
                     [
-                        'error'  => 'No such user',
-                    ]
-                ]
+                        'error' => 'No such user',
+                    ],
+                ],
             ]);
         }
 
-        $token = $this->authTokens->create(
-            ['userID' => $user->id],
-            $request->getSessionExpiration()
+        $token = $tokenStorage->create(
+            ['userID' => $user->id]
         );
 
-        $this->auth->start($token);
+        $auth->start($token);
 
-        return $view->render('auth/login');
+        return $response->redirect('/');
     }
 
     #[Route(route: '/logout', name: 'logout', methods: ['POST'])]
-    public function logout(LogoutRequest $logout)
+    public function logout(LogoutRequest $logout, ResponseWrapper $response)
     {
         if ($this->auth->getToken() === null || $this->auth->getToken()->getID() !== $logout->getToken()) {
             throw new BadRequestException();
@@ -55,6 +61,6 @@ class LoginController
 
         $this->auth->close();
 
-        return $this->response->redirect('/');
+        return $response->redirect('/login');
     }
 }

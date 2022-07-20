@@ -1,5 +1,5 @@
 module.exports = {
-    content: ["./stubs/**/*.dark.php"],
+    content: ["./resources/views/**/*.dark.php"],
     theme: {
         extend: {},
     },

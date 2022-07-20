@@ -1,27 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Auth;
 
 use App\Database\User;
 use App\Filter\Auth\RegisterRequest;
 use Cycle\ORM\EntityManagerInterface;
-use Spiral\Prototype\Traits\PrototypeTrait;
+use Spiral\Auth\AuthScope;
+use Spiral\Auth\TokenStorageInterface;
+use Spiral\Http\ResponseWrapper;
 use Spiral\Router\Annotation\Route;
 use Spiral\Views\ViewsInterface;
 
 class RegisterController
 {
-    use PrototypeTrait;
-
-    #[Route(route: 'register', name: 'register:form', methods: ['GET'])]
+    #[Route(route: '/register', name: 'register:form', methods: ['GET'])]
     public function index(ViewsInterface $view)
     {
         return $view->render('auth/register');
     }
 
     #[Route(route: '/register', name: 'register', methods: ['POST'])]
-    public function register(RegisterRequest $request, EntityManagerInterface $entityManager, ViewsInterface $view)
-    {
+    public function register(
+        RegisterRequest $request,
+        EntityManagerInterface $entityManager,
+        ResponseWrapper $response,
+        ViewsInterface $view
+    ) {
         if (!$request->isValid()) {
             return $view->render('auth/register', [
                 'errors' => $request->getErrors()
@@ -35,9 +41,8 @@ class RegisterController
         $entityManager->persist($user);
         $entityManager->run();
 
-        return [
-            'status' => 200,
-            'message' => 'Registered!',
-        ];
+        return $view->render('auth/login', [
+            'registered' => 'Successfully registered'
+        ]);
     }
 }

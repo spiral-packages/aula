@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Spiral\Aula;
 
 use Spiral\Aula\Attribute\Preset;
@@ -14,17 +16,29 @@ class StemplerPreset implements PresetInterface
 
     public function publish(string $publishPath): void
     {
-        $ensureDirs = ['Bootloader', 'Controller/Auth', 'Database', 'Repository', 'Filter/Auth', '../views/auth/layouts'];
+        $ensureDirs = [
+            'Bootloader',
+            'Controller/Auth',
+            'Database',
+            'Repository',
+            'Filter/Auth',
+            '../views/auth/layouts',
+            '../../public/styles/auth',
+        ];
 
         foreach ($ensureDirs as $dir) {
             $this->fileManager->ensureDirectory($publishPath . $dir);
         }
 
         copy(
-            __DIR__ . '/../src/Bootloader/UserBootloader.php',
+            __DIR__ . '/../stubs/UserBootloader.php',
             $publishPath . 'Bootloader/UserBootloader.php'
         );
 
+        copy(
+            __DIR__ . '/../stubs/stempler/Controller/HomeController.php',
+            $publishPath . 'Controller/HomeController.php'
+        );
         copy(
             __DIR__ . '/../stubs/stempler/Controller/LoginController.php',
             $publishPath . 'Controller/Auth/LoginController.php'
@@ -56,7 +70,10 @@ class StemplerPreset implements PresetInterface
             __DIR__ . '/../stubs/stempler/resources/views/layouts/app.dark.php',
             $publishPath . '../views/auth/layouts/app.dark.php'
         );
-
+        copy(
+            __DIR__ . '/../stubs/stempler/resources/views/home.dark.php',
+            $publishPath . '../views/home.dark.php'
+        );
         copy(
             __DIR__ . '/../stubs/stempler/resources/views/login.dark.php',
             $publishPath . '../views/auth/login.dark.php'
@@ -64,6 +81,10 @@ class StemplerPreset implements PresetInterface
         copy(
             __DIR__ . '/../stubs/stempler/resources/views/register.dark.php',
             $publishPath . '../views/auth/register.dark.php'
+        );
+        copy(
+            __DIR__ . '/../stubs/stempler/resources/css/build.css',
+            $publishPath . '../../public/styles/auth/stempler.css'
         );
     }
 }

@@ -4,24 +4,21 @@ declare(strict_types=1);
 
 namespace App\Filter\Auth;
 
+use Spiral\Filters\Attribute\Input\Post;
 use Spiral\Filters\Filter;
+use Spiral\Filters\FilterDefinitionInterface;
+use Spiral\Filters\HasFilterDefinition;
+use Spiral\Validation\Laravel\FilterDefinition;
 
-class LogoutRequest extends Filter
+class LogoutRequest extends Filter implements HasFilterDefinition
 {
-    protected const SCHEMA = [
-        'token' => 'query:token',
-    ];
+    #[Post]
+    public string $token;
 
-    protected const VALIDATES = [
-        'token' => ['notEmpty', 'string'],
-    ];
-
-    protected const SETTERS = [
-        'token' => 'strval',
-    ];
-
-    public function getToken(): string
+    public function filterDefinition(): FilterDefinitionInterface
     {
-        return (string) $this->getField('token');
+        return new FilterDefinition([
+            'email' => ['required', 'string'],
+        ]);
     }
 }

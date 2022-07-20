@@ -4,35 +4,27 @@ declare(strict_types=1);
 
 namespace App\Filter\Auth;
 
-use App\Database\User;
+use Spiral\Filters\Attribute\Input\Post;
 use Spiral\Filters\Filter;
+use Spiral\Filters\FilterDefinitionInterface;
+use Spiral\Filters\HasFilterDefinition;
+use Spiral\Validation\Laravel\FilterDefinition;
 
-class RegisterRequest extends Filter
+class RegisterRequest extends Filter implements HasFilterDefinition
 {
-    protected const SCHEMA = [
-        'email' => 'data:email',
-        'password' => 'data:password',
-        'confirmPassword' => 'data:confirmPassword',
-    ];
+    #[Post]
+    public string $email;
 
-    protected const VALIDATES = [
-        'email' => [
-            ['notEmpty'],
-            ['string'],
-            ['email'],
-            ['entity:unique', 'user', 'email', 'error' => 'Email address already used.'],
-        ],
-        'password' => ['notEmpty', 'string'],
-        'confirmPassword' => [
-            'string',
-            ['notEmpty', 'if' => ['withAll' => ['password']]],
-            ['match', 'password', 'error' => 'Passwords do not match.'],
-        ],
-    ];
+    #[Post]
+    public string $password;
 
-    protected const SETTERS = [
-        'email' => 'strval',
-        'password' => 'strval',
-        'confirmPassword' => 'strval',
-    ];
+    public function filterDefinition(): FilterDefinitionInterface
+    {
+        return new FilterDefinition([
+            'email' => ['required', 'email'],
+            'password' => ['required', 'confirmed'],
+        ], [
+            'password_confirmation' => 'data:password_confirmation',
+        ]);
+    }
 }
